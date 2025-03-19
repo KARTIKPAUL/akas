@@ -6,14 +6,15 @@ export default async function connectDB() {
         return cached.conn
     }
     if(!cached.promise){
-        cached.promise = await mongoose.connect(process.env.MONGODB_URI).then((mongoose) => mongoose);
+        cached.promise = mongoose.connect(process.env.MONGODB_URI).then((mongoose) => mongoose);
 
     }
     try {
         cached.conn = await cached.promise;
+        console.log("DBConnect")
     } catch (error) {
         console.log(`Failed To DB: ${error}`)
     }
-    return cached.conn
+    return cached.conn;
 
 }
