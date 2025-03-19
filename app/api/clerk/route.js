@@ -6,12 +6,12 @@ import { NextRequest } from "next/server";
 
 
 export async function POST(req) {
- const wh = new Webhook(process.env.SIGNIN_SECRET);
- const headerPayLoad = await headers();
+ const wh = new Webhook(process.env.SIGNING_SECRET);
+ const headerPayload = await headers();
  const svixHeaders = {
-    "svix-id": headerPayLoad.get("svix-id"),
-    "svix-timestamp": headerPayLoad.get("svix-timestamp"),
-    "svix-signature": headerPayLoad.get("svix-signature"),
+    "svix-id": headerPayload.get("svix-id"),
+    "svix-timestamp": headerPayload.get("svix-timestamp"),
+    "svix-signature": headerPayload.get("svix-signature"),
  }   
  //
 
@@ -22,10 +22,12 @@ export async function POST(req) {
 
  const userData = {
     _id: data.id,
-    name: `${data.first_name} ${data.last_name}`,
     email: data.email_addresses[0].email_addresses,
+    name: `${data.first_name} ${data.last_name}`,
+    
     image: data.image_url
  };
+ 
  await connectDB();
 
  switch(type){
