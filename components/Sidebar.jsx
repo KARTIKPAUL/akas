@@ -1,7 +1,14 @@
 import { assets } from "@/assets/assets";
+import { useAppContext } from "@/context/AppContext";
+import { useClerk, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
+import { useState } from "react";
+import ChatLabel from "./ChatLabel";
 
 const Sidebar = ({ expand, setExpand }) => {
+  const {openSignIn} = useClerk();
+  const {user} = useAppContext();
+  const [openMenu,setOpenMenu] = useState({id:0,open: false})
   return (
     <div
       className={`flex flex-col justify-between bg-[#212327] pt-7 transition-all z-50 max-md:absolute max-md:h-screen ${
@@ -73,10 +80,11 @@ const Sidebar = ({ expand, setExpand }) => {
         >
           <p className="my-1">Recents</p>
           {/* ChatLabel */}
+          <ChatLabel openMenu={openMenu} setOpenMenu={setOpenMenu}/>
         </div>
       </div>
       <div className="">
-        <div className={`flex items-center cursor-pointer group relative ${expand : 'gap-1 text-white/80 text-sm p-2 border border-primary rounded-lg hover:bg-white/10 curspr-pointer' : ''}`}>
+        <div className={`flex items-center cursor-pointer group relative ${expand ? 'gap-1 text-white/80 text-sm p-2 border border-primary rounded-lg hover:bg-white/10 curspr-pointer' : 'h-10 w-10 max-auto hover:bg-gray-500/30 rounded-lg'}`}>
           <Image
             className={`${expand ? "w-5" : "w-6.5 mx-auto"}`}
             src={expand ? assets.phone_icon : assets.phone_icon_dull}
@@ -98,6 +106,16 @@ const Sidebar = ({ expand, setExpand }) => {
             <span>Get App</span> <Image alt="" src={assets.new_icon} />
           </>
         )}
+        </div>
+
+
+        <div 
+        onClick={user ? null : openSignIn}
+        className={`flex items-center ${expand ? 'hover:bg-white/10 rounded-lg' : 'justify-center w-full'} gap-3 text-white/60 text-sm p-2 mt-2 cursor-pointer `}>
+{user ? <UserButton /> :  <Image src={assets.profile_icon} alt="" className="w-7"/>}
+         
+          {expand && <span>My Profile</span>}
+
         </div>
         
       </div>

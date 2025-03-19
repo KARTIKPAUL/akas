@@ -1,5 +1,6 @@
 "use client";
 import { assets } from "@/assets/assets";
+import PromptBox from "@/components/PromptBox";
 import Sidebar from "@/components/Sidebar";
 import Image from "next/image";
 import { useState } from "react";
@@ -7,7 +8,7 @@ import { useState } from "react";
 export default function Home() {
   const [expand, setExpand] = useState(false);
   const [message, setMessage] = useState([]);
-  const [loading, setIsLoading] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
 
   return (
     <div>
@@ -43,6 +44,8 @@ export default function Home() {
           <p className="text-sm mt-2 ">How can I Help You Today?</p>
           </> : <div></div>}
           {/* Prompt Box */}
+
+          <PromptBox isLoading={isloading} setIsLoading={setIsLoading}/>
 
 
           <p className="text-xs absolute bottom-1 text-gray-500">Ai Generated,For Referance Only!</p>
